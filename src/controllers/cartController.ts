@@ -7,9 +7,18 @@ import { Types } from 'mongoose';
  * Add item to cart
  * POST /api/cart/add
  */
-export const addToCart = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const addToCart = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
-    const { sessionId, menuItemId, quantity = 1, specialInstructions = '' } = req.body;
+    const {
+      sessionId,
+      menuItemId,
+      quantity = 1,
+      specialInstructions = ''
+    } = req.body;
 
     if (!sessionId || !menuItemId) {
       res.status(400).json({
@@ -47,13 +56,15 @@ export const addToCart = async (req: Request, res: Response, next: NextFunction)
 
     // Check if item already in cart
     const existingItemIndex = session.cart.findIndex(
-      item => (item.menuItem as Types.ObjectId).toString() === menuItemId
+      (item) => (item.menuItem as Types.ObjectId).toString() === menuItemId
     );
 
     if (existingItemIndex > -1) {
       // Update quantity
       session.cart[existingItemIndex].quantity += quantity;
-      session.cart[existingItemIndex].specialInstructions = specialInstructions || session.cart[existingItemIndex].specialInstructions;
+      session.cart[existingItemIndex].specialInstructions =
+        specialInstructions ||
+        session.cart[existingItemIndex].specialInstructions;
     } else {
       // Add new item
       session.cart.push({
@@ -87,7 +98,11 @@ export const addToCart = async (req: Request, res: Response, next: NextFunction)
  * Update cart item quantity
  * PUT /api/cart/update
  */
-export const updateCartItem = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const updateCartItem = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const { sessionId, menuItemId, quantity } = req.body;
 
@@ -117,7 +132,7 @@ export const updateCartItem = async (req: Request, res: Response, next: NextFunc
     }
 
     const itemIndex = session.cart.findIndex(
-      item => (item.menuItem as Types.ObjectId).toString() === menuItemId
+      (item) => (item.menuItem as Types.ObjectId).toString() === menuItemId
     );
 
     if (itemIndex === -1) {
@@ -156,7 +171,11 @@ export const updateCartItem = async (req: Request, res: Response, next: NextFunc
  * Remove item from cart
  * DELETE /api/cart/remove
  */
-export const removeFromCart = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const removeFromCart = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const { sessionId, menuItemId } = req.body;
 
@@ -178,7 +197,7 @@ export const removeFromCart = async (req: Request, res: Response, next: NextFunc
     }
 
     session.cart = session.cart.filter(
-      item => (item.menuItem as Types.ObjectId).toString() !== menuItemId
+      (item) => (item.menuItem as Types.ObjectId).toString() !== menuItemId
     );
 
     await session.save();
@@ -202,12 +221,18 @@ export const removeFromCart = async (req: Request, res: Response, next: NextFunc
  * Get cart contents
  * GET /api/cart/:sessionId
  */
-export const getCart = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getCart = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const { sessionId } = req.params;
 
-    const session = await Session.findOne({ sessionId, status: 'active' })
-      .populate('cart.menuItem', 'name price category image');
+    const session = await Session.findOne({
+      sessionId,
+      status: 'active'
+    }).populate('cart.menuItem', 'name price category image');
 
     if (!session) {
       res.status(404).json({

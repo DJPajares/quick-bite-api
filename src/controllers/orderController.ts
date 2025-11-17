@@ -187,7 +187,7 @@ export const getOrdersByTable = async (
   }
 };
 
-export const updateOrder = async (
+export const updateOrderStatus = async (
   req: Request,
   res: Response,
   next: NextFunction
