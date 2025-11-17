@@ -1,6 +1,6 @@
 import mongoose, { Schema, Model } from 'mongoose';
-import { IOrder, IOrderItem, IOrderModel } from '../types';
 import { ORDER_STATUS } from '../config/constants';
+import { IOrder, IOrderItem, IOrderModel } from '../types';
 
 const orderItemSchema = new Schema<IOrderItem>(
   {
