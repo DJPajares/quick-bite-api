@@ -46,7 +46,6 @@ export const getBill = async (
     );
 
     // Calculate overall bill
-    // const totalSubtotal = cartSubtotal + ordersSubtotal;
     const bill = calculateBill(ordersSubtotal);
 
     // Prepare cart items for response
