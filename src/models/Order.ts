@@ -1,5 +1,6 @@
 import mongoose, { Schema, Model } from 'mongoose';
 import { IOrder, IOrderItem, IOrderModel } from '../types';
+import { ORDER_STATUS } from '../config/constants';
 
 const orderItemSchema = new Schema<IOrderItem>(
   {
@@ -64,15 +65,8 @@ const orderSchema = new Schema<IOrder>(
     },
     status: {
       type: String,
-      enum: [
-        'pending',
-        'confirmed',
-        'preparing',
-        'ready',
-        'served',
-        'cancelled'
-      ],
-      default: 'pending'
+      enum: Object.values(ORDER_STATUS),
+      default: ORDER_STATUS.PENDING
     },
     notes: {
       type: String,
