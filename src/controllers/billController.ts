@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import Session from '../models/Session';
 import Order from '../models/Order';
 import { calculateBill } from '../utils/billCalculator';
-import { IMenuItem } from '../types';
 
 /**
  * Get current bill for a session (cart + all orders)
@@ -35,9 +34,6 @@ export const getBill = async (
       'name'
     );
 
-    // Calculate cart total
-    const cartSubtotal = session.getCartTotal();
-
     // Calculate orders total
     const ordersTotal = orders.reduce((sum, order) => sum + order.total, 0);
     const ordersSubtotal = orders.reduce(
@@ -47,17 +43,6 @@ export const getBill = async (
 
     // Calculate overall bill
     const bill = calculateBill(ordersSubtotal);
-
-    // Prepare cart items for response
-    const cartItems = session.cart.map((item) => {
-      const menuItem = item.menuItem as IMenuItem;
-      return {
-        name: menuItem.name,
-        quantity: item.quantity,
-        price: item.price,
-        subtotal: item.price * item.quantity
-      };
-    });
 
     // Prepare order items for response
     const orderItems = orders.map((order) => ({
@@ -81,10 +66,6 @@ export const getBill = async (
       data: {
         sessionId: session.sessionId,
         tableNumber: session.tableNumber,
-        cart: {
-          items: cartItems,
-          subtotal: cartSubtotal
-        },
         orders: {
           count: orders.length,
           items: orderItems,
