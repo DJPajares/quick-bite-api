@@ -1,12 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
 import Session from '../models/Session';
+import Order from '../models/Order';
 import { SESSION_TIMEOUT_MINUTES } from '../config/constants';
 
 /**
  * Create a new session when QR code is scanned
  * POST /api/sessions/scan
  */
-export const scanQRCode = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const scanQRCode = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const { tableNumber } = req.body;
 
@@ -68,12 +73,18 @@ export const scanQRCode = async (req: Request, res: Response, next: NextFunction
  * Get session details
  * GET /api/sessions/:sessionId
  */
-export const getSession = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getSession = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const { sessionId } = req.params;
 
-    const session = await Session.findOne({ sessionId })
-      .populate('cart.menuItem', 'name price category image');
+    const session = await Session.findOne({ sessionId }).populate(
+      'cart.menuItem',
+      'name price category image'
+    );
 
     if (!session) {
       res.status(404).json({
@@ -83,14 +94,37 @@ export const getSession = async (req: Request, res: Response, next: NextFunction
       return;
     }
 
+    // Get all orders for this session
+    const orders = await Order.find({ sessionId }).populate(
+      'items.menuItem',
+      'name'
+    );
+
+    // Calculate orders total
+    const ordersSubtotal = orders.reduce(
+      (sum, order) => sum + order.subtotal,
+      0
+    );
+
+    // Prepare order items for response
+    const orderItems = orders.map((order) => ({
+      id: order._id,
+      status: order.status,
+      items: order.items,
+      subtotal: order.subtotal,
+      createdAt: order.createdAt
+    }));
+
     res.status(200).json({
       success: true,
       data: {
         sessionId: session.sessionId,
         tableNumber: session.tableNumber,
         cart: session.cart,
+        orders: orderItems,
         status: session.status,
         cartTotal: session.getCartTotal(),
+        orderTotal: ordersSubtotal,
         createdAt: session.createdAt,
         expiresAt: session.expiresAt
       }

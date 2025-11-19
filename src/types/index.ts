@@ -48,7 +48,13 @@ export interface IOrder extends Document {
   tax: number;
   serviceFee: number;
   total: number;
-  status: 'pending' | 'confirmed' | 'preparing' | 'ready' | 'served' | 'cancelled';
+  status:
+    | 'pending'
+    | 'confirmed'
+    | 'preparing'
+    | 'ready'
+    | 'served'
+    | 'cancelled';
   notes: string;
   createdAt: Date;
   updatedAt: Date;
