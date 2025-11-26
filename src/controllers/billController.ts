@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import Session from '../models/Session';
 import Order from '../models/Order';
 import { calculateBill } from '../utils/billCalculator';
+import { ORDER_STATUS } from '../config/constants';
 
 /**
  * Get current bill for a session (cart + all orders)
@@ -28,8 +29,11 @@ export const getBill = async (
       return;
     }
 
-    // Get all orders for this session
-    const orders = await Order.find({ sessionId }).populate(
+    // Get all orders for this session (excluding cancelled orders)
+    const orders = await Order.find({ 
+      sessionId,
+      status: { $ne: ORDER_STATUS.CANCELLED }
+    }).populate(
       'items.menuItem',
       'name'
     );
