@@ -30,13 +30,10 @@ export const getBill = async (
     }
 
     // Get all orders for this session (excluding cancelled orders)
-    const orders = await Order.find({ 
+    const orders = await Order.find({
       sessionId,
       status: { $ne: ORDER_STATUS.CANCELLED }
-    }).populate(
-      'items.menuItem',
-      'name'
-    );
+    }).populate('items.menuItem', 'name');
 
     // Calculate orders total
     const ordersTotal = orders.reduce((sum, order) => sum + order.total, 0);
