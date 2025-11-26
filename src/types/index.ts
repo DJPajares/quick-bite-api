@@ -1,4 +1,5 @@
 import { Document, Types } from 'mongoose';
+import { ORDER_STATUS } from '../config/constants';
 
 export interface IMenuItem extends Document {
   name: string;
@@ -48,13 +49,7 @@ export interface IOrder extends Document {
   tax: number;
   serviceFee: number;
   total: number;
-  status:
-    | 'pending'
-    | 'confirmed'
-    | 'preparing'
-    | 'ready'
-    | 'served'
-    | 'cancelled';
+  status: (typeof ORDER_STATUS)[keyof typeof ORDER_STATUS];
   notes: string;
   createdAt: Date;
   updatedAt: Date;
