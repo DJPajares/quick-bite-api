@@ -6,11 +6,14 @@ const menuItems = [
   // Appetizers
   {
     name: 'Crispy Spring Rolls',
-    description: 'Golden fried rolls filled with vegetables and served with sweet chili sauce',
+    description:
+      'Golden fried rolls filled with vegetables and served with sweet chili sauce',
     price: 6.99,
     category: 'appetizers',
     available: true,
     preparationTime: 10,
+    image:
+      'https://images.unsplash.com/photo-1577859584099-38d38a4aacb5?q=80&w=800',
     tags: ['vegetarian', 'popular']
   },
   {
@@ -20,6 +23,8 @@ const menuItems = [
     category: 'appetizers',
     available: true,
     preparationTime: 15,
+    image:
+      'https://images.unsplash.com/photo-1524114664604-cd8133cd67ad?q=80&w=800',
     tags: ['spicy', 'popular']
   },
   {
@@ -29,26 +34,34 @@ const menuItems = [
     category: 'appetizers',
     available: true,
     preparationTime: 12,
+    image:
+      'https://images.unsplash.com/photo-1734774924912-dcbb467f8599?q=80&w=800',
     tags: ['vegetarian']
   },
 
   // Main Course
   {
     name: 'Classic Cheeseburger',
-    description: 'Juicy beef patty with cheese, lettuce, tomato, and special sauce',
+    description:
+      'Juicy beef patty with cheese, lettuce, tomato, and special sauce',
     price: 12.99,
     category: 'main-course',
     available: true,
     preparationTime: 20,
+    image:
+      'https://images.unsplash.com/photo-1639020715392-2d8346c3acb0?q=80&w=800',
     tags: ['popular', 'signature']
   },
   {
     name: 'Grilled Chicken Pasta',
-    description: 'Fettuccine pasta with grilled chicken in creamy Alfredo sauce',
+    description:
+      'Fettuccine pasta with grilled chicken in creamy Alfredo sauce',
     price: 14.99,
     category: 'main-course',
     available: true,
     preparationTime: 25,
+    image:
+      'https://images.unsplash.com/photo-1612548041352-432ad1176ef3?q=80&w=800',
     tags: ['popular']
   },
   {
@@ -58,6 +71,8 @@ const menuItems = [
     category: 'main-course',
     available: true,
     preparationTime: 18,
+    image:
+      'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?q=80&w=800',
     tags: ['vegetarian', 'popular']
   },
   {
@@ -67,6 +82,8 @@ const menuItems = [
     category: 'main-course',
     available: true,
     preparationTime: 22,
+    image:
+      'https://images.unsplash.com/photo-1706711053549-f52f73a8960c?q=80&w=800',
     tags: []
   },
   {
@@ -76,6 +93,8 @@ const menuItems = [
     category: 'main-course',
     available: true,
     preparationTime: 15,
+    image:
+      'https://images.unsplash.com/photo-1675092789086-4bd2b93ffc69?q=80&w=800',
     tags: ['vegan', 'healthy']
   },
 
@@ -87,6 +106,8 @@ const menuItems = [
     category: 'sides',
     available: true,
     preparationTime: 8,
+    image:
+      'https://images.unsplash.com/photo-1630431341973-02e1b662ec35?q=80&w=800',
     tags: ['vegetarian']
   },
   {
@@ -96,6 +117,8 @@ const menuItems = [
     category: 'sides',
     available: true,
     preparationTime: 10,
+    image:
+      'https://images.unsplash.com/photo-1639024471283-03518883512d?q=80&w=800',
     tags: ['vegetarian']
   },
   {
@@ -105,17 +128,22 @@ const menuItems = [
     category: 'sides',
     available: true,
     preparationTime: 5,
+    image:
+      'https://images.unsplash.com/photo-1599021419847-d8a7a6aba5b4?q=80&w=800',
     tags: ['healthy']
   },
 
   // Desserts
   {
     name: 'Chocolate Lava Cake',
-    description: 'Warm chocolate cake with molten center, served with vanilla ice cream',
+    description:
+      'Warm chocolate cake with molten center, served with vanilla ice cream',
     price: 6.99,
     category: 'desserts',
     available: true,
     preparationTime: 12,
+    image:
+      'https://images.unsplash.com/photo-1511911063855-2bf39afa5b2e?q=80&w=800',
     tags: ['popular', 'signature']
   },
   {
@@ -125,6 +153,8 @@ const menuItems = [
     category: 'desserts',
     available: true,
     preparationTime: 5,
+    image:
+      'https://images.unsplash.com/photo-1706046213335-d0200829b871?q=80&w=800',
     tags: ['popular']
   },
   {
@@ -134,6 +164,8 @@ const menuItems = [
     category: 'desserts',
     available: true,
     preparationTime: 5,
+    image:
+      'https://images.unsplash.com/photo-1702564696095-ba5110856bf2?q=80&w=800',
     tags: []
   },
 
@@ -145,6 +177,8 @@ const menuItems = [
     category: 'beverages',
     available: true,
     preparationTime: 3,
+    image:
+      'https://images.unsplash.com/photo-1613478223719-2ab802602423?q=80&w=800',
     tags: ['fresh', 'healthy']
   },
   {
@@ -154,6 +188,8 @@ const menuItems = [
     category: 'beverages',
     available: true,
     preparationTime: 2,
+    image:
+      'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?q=80&w=800',
     tags: []
   },
   {
@@ -163,6 +199,8 @@ const menuItems = [
     category: 'beverages',
     available: true,
     preparationTime: 1,
+    image:
+      'https://images.unsplash.com/photo-1759424346318-2b25019bfeb4?q=80&w=800',
     tags: []
   },
   {
@@ -172,6 +210,8 @@ const menuItems = [
     category: 'beverages',
     available: true,
     preparationTime: 1,
+    image:
+      'https://images.unsplash.com/photo-1453825012366-3738046cb6c7?q=80&w=800',
     tags: []
   },
   {
@@ -181,6 +221,8 @@ const menuItems = [
     category: 'beverages',
     available: true,
     preparationTime: 5,
+    image:
+      'https://images.unsplash.com/photo-1653542773369-51cce8d08250?q=80&w=800',
     tags: ['fresh', 'healthy']
   }
 ];
@@ -204,8 +246,8 @@ const seedDatabase = async (): Promise<void> => {
       { $group: { _id: '$category', count: { $sum: 1 } } },
       { $sort: { _id: 1 } }
     ]);
-    
-    categories.forEach(cat => {
+
+    categories.forEach((cat) => {
       console.log(`   ${cat._id}: ${cat.count} items`);
     });
 
