@@ -67,3 +67,23 @@ export interface IBillCalculation {
   serviceFeeRate: number;
   total: number;
 }
+
+export interface CreateMenuItemRequest {
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  image?: string;
+  available?: boolean;
+  tags?: string[];
+}
+
+export interface UpdateMenuItemRequest {
+  name?: string;
+  description?: string;
+  price?: number;
+  category?: string;
+  image?: string;
+  available?: boolean;
+  tags?: string[];
+}

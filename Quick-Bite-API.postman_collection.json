@@ -1,0 +1,653 @@
+{
+  "info": {
+    "_postman_id": "quick-bite-api-collection",
+    "name": "Quick Bite API",
+    "description": "Fast and easy restaurant QR code ordering system API collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["health"]
+        },
+        "description": "Check if the API server is running"
+      }
+    },
+    {
+      "name": "Sessions",
+      "item": [
+        {
+          "name": "Scan QR Code",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tableNumber\": 5\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/sessions/scan",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "sessions", "scan"]
+            },
+            "description": "Scan QR code to start a new session at a table"
+          }
+        },
+        {
+          "name": "Get Session",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/sessions/:sessionId",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "sessions", ":sessionId"],
+              "variable": [
+                {
+                  "key": "sessionId",
+                  "value": "",
+                  "description": "Session UUID"
+                }
+              ]
+            },
+            "description": "Get session details by session ID"
+          }
+        }
+      ],
+      "description": "Session management endpoints"
+    },
+    {
+      "name": "Menu",
+      "item": [
+        {
+          "name": "Get All Menu Items",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/menu",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "menu"]
+            },
+            "description": "Get all menu items"
+          }
+        },
+        {
+          "name": "Get Menu by Category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/menu/category/:category",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "menu", "category", ":category"],
+              "variable": [
+                {
+                  "key": "category",
+                  "value": "appetizer",
+                  "description": "Category: appetizer, main, dessert, beverage"
+                }
+              ]
+            },
+            "description": "Get menu items by category"
+          }
+        },
+        {
+          "name": "Get Menu Item",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/menu/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "menu", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "",
+                  "description": "Menu item ID"
+                }
+              ]
+            },
+            "description": "Get a specific menu item by ID"
+          }
+        }
+      ],
+      "description": "Menu browsing endpoints"
+    },
+    {
+      "name": "Cart",
+      "item": [
+        {
+          "name": "Add to Cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"\",\n  \"menuItemId\": \"\",\n  \"quantity\": 1,\n  \"specialInstructions\": \"No onions\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/cart/add",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "cart", "add"]
+            },
+            "description": "Add item to cart"
+          }
+        },
+        {
+          "name": "Update Cart Item",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"\",\n  \"menuItemId\": \"\",\n  \"quantity\": 2,\n  \"specialInstructions\": \"Extra spicy\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/cart/update",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "cart", "update"]
+            },
+            "description": "Update cart item quantity or special instructions"
+          }
+        },
+        {
+          "name": "Remove from Cart",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"\",\n  \"menuItemId\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/cart/remove",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "cart", "remove"]
+            },
+            "description": "Remove item from cart"
+          }
+        },
+        {
+          "name": "Get Cart",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/cart/:sessionId",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "cart", ":sessionId"],
+              "variable": [
+                {
+                  "key": "sessionId",
+                  "value": "",
+                  "description": "Session UUID"
+                }
+              ]
+            },
+            "description": "Get cart contents for a session"
+          }
+        }
+      ],
+      "description": "Shopping cart management endpoints"
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Submit Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/submit",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders", "submit"]
+            },
+            "description": "Submit cart as an order"
+          }
+        },
+        {
+          "name": "Get Order",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/:orderId",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders", ":orderId"],
+              "variable": [
+                {
+                  "key": "orderId",
+                  "value": "",
+                  "description": "Order ID"
+                }
+              ]
+            },
+            "description": "Get order details by order ID"
+          }
+        },
+        {
+          "name": "Get Orders by Session",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/session/:sessionId",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders", "session", ":sessionId"],
+              "variable": [
+                {
+                  "key": "sessionId",
+                  "value": "",
+                  "description": "Session UUID"
+                }
+              ]
+            },
+            "description": "Get all orders for a session"
+          }
+        },
+        {
+          "name": "Get Orders by Table",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/table/:tableNumber",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders", "table", ":tableNumber"],
+              "variable": [
+                {
+                  "key": "tableNumber",
+                  "value": "5",
+                  "description": "Table number"
+                }
+              ]
+            },
+            "description": "Get all orders for a table"
+          }
+        },
+        {
+          "name": "Update Order Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderId\": \"\",\n  \"status\": \"preparing\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/update-status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders", "update-status"]
+            },
+            "description": "Update order status (pending, preparing, ready, delivered, cancelled)"
+          }
+        }
+      ],
+      "description": "Order management endpoints"
+    },
+    {
+      "name": "Bill",
+      "item": [
+        {
+          "name": "Get Bill",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/bill/:sessionId",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bill", ":sessionId"],
+              "variable": [
+                {
+                  "key": "sessionId",
+                  "value": "",
+                  "description": "Session UUID"
+                }
+              ]
+            },
+            "description": "Get bill/receipt for a session with all order details"
+          }
+        }
+      ],
+      "description": "Billing endpoints"
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Orders",
+          "item": [
+            {
+              "name": "Get All Orders",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/admin/orders",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "admin", "orders"]
+                },
+                "description": "Get all orders (Admin only)"
+              }
+            },
+            {
+              "name": "Get Order by ID",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/admin/orders/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "admin", "orders", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "",
+                      "description": "Order ID"
+                    }
+                  ]
+                },
+                "description": "Get specific order details (Admin only)"
+              }
+            },
+            {
+              "name": "Update Order Status",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"preparing\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/admin/orders/:id/status",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "admin", "orders", ":id", "status"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "",
+                      "description": "Order ID"
+                    }
+                  ]
+                },
+                "description": "Update order status (Admin only)"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Menu",
+          "item": [
+            {
+              "name": "Get All Menu Items",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/admin/menu",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "admin", "menu"]
+                },
+                "description": "Get all menu items with admin details (Admin only)"
+              }
+            },
+            {
+              "name": "Create Menu Item",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"New Dish\",\n  \"description\": \"Delicious new item\",\n  \"price\": 12.99,\n  \"category\": \"main\",\n  \"imageUrl\": \"https://example.com/image.jpg\",\n  \"isAvailable\": true,\n  \"preparationTime\": 15,\n  \"allergens\": [\"gluten\"],\n  \"isVegetarian\": false,\n  \"isVegan\": false,\n  \"spicyLevel\": 2\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/admin/menu",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "admin", "menu"]
+                },
+                "description": "Create new menu item (Admin only)"
+              }
+            },
+            {
+              "name": "Update Menu Item",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"price\": 14.99,\n  \"isAvailable\": false\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/admin/menu/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "admin", "menu", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "",
+                      "description": "Menu item ID"
+                    }
+                  ]
+                },
+                "description": "Update menu item (Admin only)"
+              }
+            },
+            {
+              "name": "Delete Menu Item",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/admin/menu/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "admin", "menu", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "",
+                      "description": "Menu item ID"
+                    }
+                  ]
+                },
+                "description": "Delete menu item (Admin only)"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Inventory",
+          "item": [
+            {
+              "name": "Get All Inventory",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/admin/inventory",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "admin", "inventory"]
+                },
+                "description": "Get all inventory items (Admin only)"
+              }
+            },
+            {
+              "name": "Update Inventory Stock",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"stock\": 50\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/admin/inventory/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "admin", "inventory", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "",
+                      "description": "Menu item ID"
+                    }
+                  ]
+                },
+                "description": "Update inventory stock level (Admin only)"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Analytics",
+          "item": [
+            {
+              "name": "Get Dashboard Analytics",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/admin/analytics/dashboard",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "admin", "analytics", "dashboard"]
+                },
+                "description": "Get dashboard analytics (Admin only)"
+              }
+            }
+          ]
+        }
+      ],
+      "description": "Admin panel endpoints (require authentication)"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "adminToken",
+      "value": "your-admin-token-here",
+      "type": "string"
+    }
+  ]
+}
