@@ -11,7 +11,7 @@ export const getAllInventory = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { category, lowStock } = req.query;
+    const { category } = req.query;
 
     const filter: any = {};
 

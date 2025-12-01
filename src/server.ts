@@ -10,6 +10,7 @@ import menuRoutes from './routes/menuRoutes';
 import cartRoutes from './routes/cartRoutes';
 import orderRoutes from './routes/orderRoutes';
 import billRoutes from './routes/billRoutes';
+import authRoutes from './routes/authRoutes';
 import adminRoutes from './routes/adminRoutes';
 
 // Initialize app
@@ -46,6 +47,7 @@ app.use('/api/menu', menuRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/bill', billRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 
 // 404 handler

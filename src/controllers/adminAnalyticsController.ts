@@ -1,14 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import Order from '../models/Order';
-import MenuItem from '../models/MenuItem';
-import { ORDER_STATUS } from '../config/constants';
 
 /**
  * Get dashboard analytics
  * GET /api/admin/analytics/dashboard
  */
 export const getDashboardAnalytics = async (
-  req: Request,
+  _req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
@@ -79,7 +77,7 @@ export const getDashboardAnalytics = async (
         Order.find()
           .sort({ createdAt: -1 })
           .limit(10)
-          .select('orderNumber tableNumber total status createdAt')
+          .select('orderNumber tableNumber total status items createdAt')
       ]);
 
     // Calculate status breakdown
@@ -125,6 +123,7 @@ export const getDashboardAnalytics = async (
           tableNumber: order.tableNumber,
           total: order.total,
           status: order.status,
+          items: order.items,
           createdAt: order.createdAt
         }))
       }

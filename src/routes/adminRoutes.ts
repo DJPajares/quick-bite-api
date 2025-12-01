@@ -1,5 +1,5 @@
 import express from 'express';
-import { authenticateAdmin } from '../middleware/authMiddleware';
+import { authenticateAdmin, requireRole } from '../middleware/authMiddleware';
 
 // Order controllers
 import {
@@ -27,25 +27,38 @@ import { getDashboardAnalytics } from '../controllers/adminAnalyticsController';
 
 const router = express.Router();
 
-// Apply authentication middleware to all admin routes
+// Apply JWT authentication middleware to all admin routes
 router.use(authenticateAdmin);
 
-// Orders Management
+/**
+ * Orders Management
+ * kitchen-staff: Can view and update order status
+ * admin: Full access
+ */
 router.get('/orders', getAllOrders);
 router.get('/orders/:id', getOrderById);
 router.patch('/orders/:id/status', updateOrderStatus);
 
-// Menu Management
-router.get('/menu', getAllMenuItems);
-router.post('/menu', createMenuItem);
-router.patch('/menu/:id', updateMenuItem);
-router.delete('/menu/:id', deleteMenuItem);
+/**
+ * Menu Management
+ * admin only: Full CRUD operations
+ */
+router.get('/menu', requireRole('admin'), getAllMenuItems);
+router.post('/menu', requireRole('admin'), createMenuItem);
+router.patch('/menu/:id', requireRole('admin'), updateMenuItem);
+router.delete('/menu/:id', requireRole('admin'), deleteMenuItem);
 
-// Inventory Management
-router.get('/inventory', getAllInventory);
-router.patch('/inventory/:id', updateInventoryStock);
+/**
+ * Inventory Management
+ * admin only: View and update inventory
+ */
+router.get('/inventory', requireRole('admin'), getAllInventory);
+router.patch('/inventory/:id', requireRole('admin'), updateInventoryStock);
 
-// Analytics
-router.get('/analytics/dashboard', getDashboardAnalytics);
+/**
+ * Analytics
+ * admin only: View dashboard analytics
+ */
+router.get('/analytics/dashboard', requireRole('admin'), getDashboardAnalytics);
 
 export default router;

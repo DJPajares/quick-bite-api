@@ -1,0 +1,389 @@
+{
+  "info": {
+    "name": "Quick Bite API - Authentication",
+    "description": "JWT-based authentication endpoints for admin dashboard",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Admin Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.environment.set('admin_token', jsonData.token);",
+                  "    pm.environment.set('admin_user_id', jsonData.user.id);",
+                  "    console.log('Token saved:', jsonData.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"Admin123!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/admin/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "admin", "login"]
+            },
+            "description": "Login with admin credentials to receive JWT token"
+          },
+          "response": []
+        },
+        {
+          "name": "Kitchen Staff Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.environment.set('kitchen_token', jsonData.token);",
+                  "    console.log('Kitchen staff token saved:', jsonData.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"kitchen\",\n  \"password\": \"Kitchen123!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/admin/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "admin", "login"]
+            },
+            "description": "Login with kitchen staff credentials"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Current User",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/auth/admin/me",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "admin", "me"]
+            },
+            "description": "Get currently authenticated user information"
+          },
+          "response": []
+        },
+        {
+          "name": "Login - Invalid Credentials",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"wrongpassword\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/admin/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "admin", "login"]
+            },
+            "description": "Test login with invalid credentials (should return 401)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin - Orders",
+      "item": [
+        {
+          "name": "Get All Orders (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/orders",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "orders"]
+            },
+            "description": "Get all orders with JWT authentication"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Orders (Kitchen Staff)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{kitchen_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/orders",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "orders"]
+            },
+            "description": "Kitchen staff can also view orders"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Order Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"preparing\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/orders/:orderId/status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "orders", ":orderId", "status"],
+              "variable": [
+                {
+                  "key": "orderId",
+                  "value": "{{order_id}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin - Menu (Admin Only)",
+      "item": [
+        {
+          "name": "Get All Menu Items (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/menu",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "menu"]
+            },
+            "description": "Admin only - view all menu items"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Menu Items (Kitchen Staff - Should Fail)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{kitchen_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/menu",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "menu"]
+            },
+            "description": "Kitchen staff should get 403 Forbidden"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Menu Item",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test Item\",\n  \"category\": \"appetizers\",\n  \"price\": 9.99,\n  \"description\": \"Test description\",\n  \"image\": \"https://example.com/image.jpg\",\n  \"available\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/menu",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "menu"]
+            },
+            "description": "Admin only - create new menu item"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin - Inventory (Admin Only)",
+      "item": [
+        {
+          "name": "Get Inventory",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/inventory",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "inventory"]
+            },
+            "description": "Admin only - view inventory"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin - Analytics (Admin Only)",
+      "item": [
+        {
+          "name": "Get Dashboard Analytics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/analytics/dashboard",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "analytics", "dashboard"]
+            },
+            "description": "Admin only - view dashboard analytics"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Error Cases",
+      "item": [
+        {
+          "name": "No Token Provided",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/admin/orders",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "orders"]
+            },
+            "description": "Should return 401 - No authentication token provided"
+          },
+          "response": []
+        },
+        {
+          "name": "Invalid Token",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer invalid-token-here"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/orders",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "orders"]
+            },
+            "description": "Should return 401 - Invalid token"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3001",
+      "type": "string"
+    },
+    {
+      "key": "admin_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "kitchen_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "admin_user_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "order_id",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
