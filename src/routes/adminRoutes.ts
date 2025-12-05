@@ -25,7 +25,7 @@ import {
 // Analytics controllers
 import { getDashboardAnalytics } from '../controllers/adminAnalyticsController';
 
-const router: express.Router = express.Router();
+const router = express.Router();
 
 // Apply JWT authentication middleware to all admin routes
 router.use(authenticateAdmin);
