@@ -7,7 +7,7 @@ import {
   updateOrderStatus
 } from '../controllers/orderController';
 
-const router = express.Router();
+const router: express.Router = express.Router();
 
 router.post('/submit', submitOrder);
 router.get('/session/:sessionId', getOrdersBySession);

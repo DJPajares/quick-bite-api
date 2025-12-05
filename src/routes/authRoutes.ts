@@ -3,7 +3,7 @@ import rateLimit from 'express-rate-limit';
 import { adminLogin, getCurrentUser } from '../controllers/authController';
 import { authenticateAdmin } from '../middleware/authMiddleware';
 
-const router = express.Router();
+const router: express.Router = express.Router();
 
 /**
  * Rate limiter for login endpoint

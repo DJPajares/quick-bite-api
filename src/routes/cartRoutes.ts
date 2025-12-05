@@ -1,12 +1,12 @@
 import express from 'express';
-import { 
-  addToCart, 
-  updateCartItem, 
-  removeFromCart, 
-  getCart 
+import {
+  addToCart,
+  updateCartItem,
+  removeFromCart,
+  getCart
 } from '../controllers/cartController';
 
-const router = express.Router();
+const router: express.Router = express.Router();
 
 router.post('/add', addToCart);
 router.put('/update', updateCartItem);
