@@ -39,7 +39,7 @@ export const getAllOrders = async (
     const [orders, totalCount] = await Promise.all([
       Order.find(filter)
         .populate('items.menuItem', 'name category')
-        .sort({ createdAt: -1 })
+        .sort({ createdAt: 1 })
         .skip(skip)
         .limit(limitNum),
       Order.countDocuments(filter)
