@@ -24,13 +24,13 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Request logger (development)
-if (process.env.NODE_ENV === 'development') {
-  app.use((req: Request, _res: Response, next: NextFunction) => {
-    console.log(`${req.method} ${req.path}`);
-    next();
-  });
-}
+// // Request logger (development)
+// if (process.env.NODE_ENV === 'development') {
+//   app.use((req: Request, _res: Response, next: NextFunction) => {
+//     console.log(`${req.method} ${req.path}`);
+//     next();
+//   });
+// }
 
 // Health check
 app.get('/health', (_req: Request, res: Response) => {
