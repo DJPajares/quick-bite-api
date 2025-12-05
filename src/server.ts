@@ -14,7 +14,7 @@ import authRoutes from './routes/authRoutes';
 import adminRoutes from './routes/adminRoutes';
 
 // Initialize app
-const app: Application = express();
+const app = express();
 
 // Connect to database
 connectDB();
