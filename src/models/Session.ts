@@ -34,7 +34,8 @@ const sessionSchema = new Schema<ISession>(
       type: String,
       required: true,
       unique: true,
-      default: uuidv4
+      default: uuidv4,
+      index: true
     },
     tableNumber: {
       type: Number,
@@ -48,7 +49,8 @@ const sessionSchema = new Schema<ISession>(
     },
     expiresAt: {
       type: Date,
-      required: true
+      required: true,
+      index: { expireAfterSeconds: 0 }
     }
   },
   {
@@ -57,12 +59,7 @@ const sessionSchema = new Schema<ISession>(
 );
 
 // Index for faster lookups
-sessionSchema.index({ sessionId: 1 });
 sessionSchema.index({ tableNumber: 1, status: 1 });
-sessionSchema.index({ expiresAt: 1 });
-
-// Auto-expire sessions
-sessionSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
 // Calculate cart total
 sessionSchema.methods.getCartTotal = function (this: ISession): number {

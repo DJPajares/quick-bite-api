@@ -35,12 +35,14 @@ const orderSchema = new Schema<IOrder>(
     orderNumber: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
+      index: true
     },
     sessionId: {
       type: String,
       required: true,
-      ref: 'Session'
+      ref: 'Session',
+      index: true
     },
     tableNumber: {
       type: Number,
@@ -66,7 +68,8 @@ const orderSchema = new Schema<IOrder>(
     status: {
       type: String,
       enum: Object.values(ORDER_STATUS),
-      default: ORDER_STATUS.PENDING
+      default: ORDER_STATUS.PENDING,
+      index: true
     },
     notes: {
       type: String,
@@ -79,10 +82,7 @@ const orderSchema = new Schema<IOrder>(
 );
 
 // Indexes for faster queries
-orderSchema.index({ orderNumber: 1 });
-orderSchema.index({ sessionId: 1 });
 orderSchema.index({ tableNumber: 1, createdAt: -1 });
-orderSchema.index({ status: 1 });
 
 // Generate order number
 orderSchema.statics.generateOrderNumber = function (): string {
